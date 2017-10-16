@@ -1,0 +1,235 @@
+<!DOCTYPE html>    
+<head>
+    <meta charset="utf-8">
+    <title>ITS ME</title>
+<script src="jquery.min.js"></script>
+
+</head>
+<style>
+
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
+<body >
+<form>
+<select name="users" onchange="showUser(this.value)">
+<option value="">Select a person:</option>
+<option value="1">Peter Griffin</option>
+<option value="2">Lois Griffin</option>
+<option value="3">Joseph Swanson</option>
+<option value="4">Glenn Quagmire</option>
+</select>
+</form>
+<br>
+<div id="txtHint"><b>Person info will be listed here.</b></div>
+
+<div class="container">
+    <ul class="nav nav-pills nav-justified">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">Control</a></li>
+    <li><a href="#">Details</a></li>
+    <li><a href="#">Login/Logout</a></li>
+  </ul>
+</div>
+<div  class='well' style = 'position: absolute; left: 10%; top :10%; height:30%; width:80%'><button type="button" class="btn btn-info">Info</button><div>
+<canvas id='c' style = 'position: absolute; left: 10%; top :10%;' >
+</canvas>
+<canvas id='d' style = 'position: absolute; left: 60%; top: 10%;' >
+</canvas>
+<script>
+(function() {
+// Obtain a reference to the canvas element
+// using its id.
+ // here i am getting data for temp usage
+setInterval(initialize,10000);
+
+
+  
+ $.get("test.txt", function(data1, status){
+            window.$var = data1.split(",");
+                  console.log(window.$var);});
+var
+canvas = document.getElementById('c'),
+   // Obtain a graphics context on the
+   // canvas element for drawing.
+   context = canvas.getContext('2d'),
+  x = 20; //here this x use for minimum size of width or height; 
+ var
+canvas1 = document.getElementById('d'),
+   // Obtain a graphics context on the
+   // canvas element for drawing.
+   context1 = canvas1.getContext('2d'),
+  x1 = 20; 
+
+ 
+function initialize() {
+resizeCanvas();
+
+ $.get("test.txt", function(data1, status){
+            window.$var = data1.split(",");
+                  console.log(window.$var);});
+window.addEventListener('resize', resizeCanvas, false);
+}
+// Display custom canvas.
+// In this case it's a blue, 5 pixel border that
+// resizes along with the browser window.
+var canX=0,canY=0 ;
+function mouseDown() {
+window.location.href ="second.php";
+}       
+ function mouseXY(e) {
+
+            if (!e)
+
+                var e = event;
+
+            canX = e.pageX - window.innerWidth*4/100;
+
+            canY = e.pageY - window.innerHeight*90/100;
+
+           
+
+        }
+
+
+function redraw() {
+
+        x = canvas.width;
+          if( x > canvas.height ) {
+        
+         x = canvas.height; 
+
+	}
+        context.beginPath();
+                
+               context.arc(canvas.width / 2, canvas.height / 2, x/2 -2, 0, Math.PI * 2);
+                context.strokeStyle = '#f54308';
+               context.lineWidth =x/7;
+                 context.stroke();
+              context.beginPath();
+              context.lineWidth =x/6;
+             if (window.$var[0] < 60) {
+             	context.strokeStyle ='#aafb3c';   
+             }
+             else if ( window.$var[0] <80 ){
+	       	context.strokeStyle ='yellow';
+             }
+             else {
+              	context.strokeStyle = '#f54308';
+	     }
+             if (window.$var[0] == 100 ) {
+              context.arc(canvas.width / 2, canvas.height / 2,x/3 ,0,2*Math.PI);
+             }else {
+                context.arc(canvas.width / 2, canvas.height / 2,x/3 , 3 *Math.PI/2,window.$var[0]*2* Math.PI/100 - Math.PI/2 );
+		}
+	      context.stroke();
+             
+             context.fillStyle ='black';
+             var s = x/7;
+
+             context.font = s +'px Georgia';
+
+             context.fillText(window.$var[0] + "%",canvas.width/2 - s,canvas.height/2);
+             
+            }
+function redraw1() {
+
+        x1 = canvas1.width;
+          if( x1 > canvas1.height ) {
+
+         x1 = canvas1.height;
+
+        }
+        context1.beginPath();
+
+               context1.arc(canvas.width / 2, canvas.height / 2, x/2 -2, 0, Math.PI * 2);
+                context1.strokeStyle = '#f54308';
+               context1.lineWidth =x/7;
+                 context1.stroke();
+              context1.beginPath();
+              context1.lineWidth =x/6;
+             if (window.$var[21] < 60) {
+                context1.strokeStyle ='#aafb3c';
+             }
+             else if ( window.$var[21] <80 ){
+                context1.strokeStyle ='yellow';
+             }
+             else {
+                context1.strokeStyle = '#f54308';
+             }
+  
+           //   context1.arc(canvas1.width / 2, canvas1.height / 2,x/3 , 3 *Math.PI/2,window.$var[21]*2* Math.PI/100 - Math.PI/2 );
+              x2 = canvas1.width;
+          if( x2 > canvas1.height ) {
+
+         x2 = canvas1.height;
+
+        }
+if (window.$var[21] == 100 ) {
+              context1.arc(canvas1.width / 2, canvas1.height / 2,x/3 ,0,2*Math.PI);
+             }else {
+                context1.arc(canvas1.width / 2, canvas1.height / 2,x/3 , 3 *Math.PI/2,window.$var[21]*2* Math.PI/100 - Math.PI/2 );
+
+              }
+              context1.stroke();
+
+             context1.fillStyle ='black';
+             var s = x1/7;
+             
+             context1.font = s +'px Georgia';
+             context1.fillText(window.$var[21] + "%",canvas1.width/2 - s,canvas1.height/2);
+            
+
+            }
+
+
+// Runs each time the DOM window resize event fires.
+// Resets the canvas dimensions to match window,
+// then draws the new borders accordingly.
+function resizeCanvas() {
+canvas.width = window.innerWidth/4;
+canvas.height = window.innerHeight/4;
+redraw();
+
+canvas1.width = window.innerWidth/4;
+canvas1.height = window.innerHeight/4;
+redraw1();
+
+
+//draw();
+} })();
+</script>
+<script>
+function showUser(str) {
+  if (str=="") {
+    document.getElementById("txtHint").innerHTML="";
+    return;
+  }
+  if (window.XMLHttpRequest) {
+    // code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+  } else { // code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+      document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+    }
+  }
+  xmlhttp.open("GET","check.php?q="+str,true);
+  xmlhttp.send();
+}
+var i=0;
+//for( i=0 ; i<=1000 ; i++){ 
+//sleep(5000);
+function u(){
+showUser(10);
+}
+setInterval(u,5000); 
+</script>
+
+
+</html>

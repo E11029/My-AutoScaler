@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.png">
+
+    <title>myAutoScalerDashboard</title>
+
+  
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+   
+    <link href="css/dashboard.css" rel="stylesheet">
+
+   
+    <script type="text/javascript" src="js/smoothie.js"></script>
+    <script src="js/ie-emulation-modes-warning.js"></script>
+    <script type="text/javascript" src="js/Chart.js"></script>
+
+   
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#" ><img src="favicon.png"  width="40px" height="60px" style="display: inline-block;margin-top:-20px">Pearson</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar inverse">
+            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+            <li class=""><a href="#">About<span class="sr-only">(current)</span></a></li>
+          </ul>
+        </div>
+
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main container-fluid">
+          <h1 class="page-header">myAutoScaler Dashboard</h1>
+
+          <div class="row placeholders">
+            <div class="col-xs-12 col-sm-5 col-sm-offset-1 placeholder">
+             <canvas id="cpu" width="200" height="200" ></canvas> 
+              <h4>CPU</h4>
+              <span class="text-muted">Usage</span>
+            </div>
+
+            <div class="col-xs-12 col-sm-5 placeholder">
+              <canvas id="mem" width="200" height="200" ></canvas> 
+              <h4>MEMORY</h4>
+              <span class="text-muted">Usage</span>
+            </div>
+            
+          </div>  
+
+          <div class=" placeholder">
+              <canvas class='col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-2x  col-xs-12 ' id="chart" width="700%" height="300%" ></canvas> 
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+// this is the script for cpu canvas -------------------------------------------    
+      var cpuData = [
+                     {
+                       value: 20,
+                       color:"#878BB6"
+                     },
+                     {
+                       value : 40,
+                       color : "#4ACAB4"
+                     },
+                     {
+                       value : 10,
+                       color : "#FF8153"
+                     },
+                     {
+                       value : 10,
+                       color : "#FFEA88"
+                     }
+                  ];
+
+    var pieOptions = {
+                        segmentShowStroke : true,
+                        animateScale : true,
+                        percentageInnerCutout : 60,
+                        animationSteps : 100,
+                        animationEasing : "easeOutQuint",
+                        
+                      }                      
+
+    var cpu = document.getElementById('cpu').getContext('2d');
+    var cpuChart = new Chart(cpu).Pie(cpuData,pieOptions);
+
+     for (var i =0; i <= 1; i++) {
+     setInterval(function(){
+      cpuChart.segments[0].value =Math.floor(Math.random()*5);
+      cpuChart.segments[1].value =Math.floor(Math.random()*5);
+      cpuChart.segments[2].value =Math.floor(Math.random()*4); 
+      //cpuChart.segments[3].value =Math.floor(Math.random()*100);
+      cpuChart.update();
+     }, 500);
+   }
+ //----------------------------------------------------------------------------------------                     
+</script>
+
+<script>
+// this is the script for Memorycanvas -------------------------------------------    
+      var memData = [
+                     {
+                       value: 60,
+                       color:"#878BB6"
+                     },
+                     {
+                       value : 40,
+                       color : "#4ACAB4"
+                      }
+                  ];
+
+    var pieOptions = {
+                        segmentShowStroke : true,
+                        animateScale : true,
+                        percentageInnerCutout : 60,
+                        animationSteps : 100,
+                        animationEasing : "easeOutQuint",
+                       
+                        
+
+                      }                      
+
+    var mem = document.getElementById('mem').getContext('2d');
+    var memChart= new Chart(mem).Pie(memData,pieOptions);   
+
+
+     for (var i =0; i <= 1; i++) {
+     setInterval(function(){
+      memChart.segments[0].value =Math.floor(Math.random()*4); 
+      //memChart.segments[1].value =Math.floor(Math.random()*100);
+      memChart.update();
+     }, 500);
+
+    }
+
+    
+ //----------------------------------------------------------------------------------------                     
+</script>
+
+<script type="text/javascript" >
+    var mainChart = new SmoothieChart();
+    mainChart.streamTo(document.getElementById("chart"));
+
+    var line1 = new TimeSeries();
+
+    setInterval(function(){
+
+      line1.append(new Date().getTime(),Math.random());
+
+    },1000);
+
+
+    mainChart.addTimeSeries(line1,{strokeStyle:'rgb(0,200,0)',lineWidth:2});
+    mainChart.streamTo(document.getElementById("chart"), 1000 /*delay*/); 
+</script>
+
+
+
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/vendor/holder.min.js"></script>
+
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
